@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+good_user:
+  givenName: Justin
+  surname: Ferguson
+  email: jferg@testworld.com
+
+bad_user:
+  givenName: Mike
+  surname: Moon
+  email: moonbeam@testworld.com

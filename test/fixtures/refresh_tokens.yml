@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+valid_token:
+  user: good_user (User)
+  value: <%= SecureRandom.hex(64) %>
+  expires: 2030-04-23 17:37:02
+  createdByIp: 131.151.1.7
+  supercededBy:
+  revokedByIp:
+  revokedAt:
+
+expired_token:
+  user: good_user (User)
+  value: <%= SecureRandom.hex(64) %>
+  expires: 2023-04-20 17:37:02
+  createdByIp: 131.151.1.7
+  supercededBy:
+  revokedByIp:
+  revokedAt:
+
+superceded_token:
+  user: good_user (User)
+  value: <%= SecureRandom.hex(64) %>
+  expires: 2030-04-20 17:37:02
+  createdByIp: 131.151.1.7
+  supercededBy: valid_token
+  revokedByIp:
+  revokedAt:
+
+revoked_token:
+  user: good_user (User)
+  value: <%= SecureRandom.hex(64) %>
+  expires: 2030-04-20 17:37:02
+  createdByIp: 131.151.1.7
+  supercededBy:
+  revokedByIp: 127.0.0.1
+  revokedAt: 2023-04-23 10:00:00
