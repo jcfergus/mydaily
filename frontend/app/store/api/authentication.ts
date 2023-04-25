@@ -46,14 +46,17 @@ export const authenticationApi = createApi({
                 method: 'POST',
                 body: user,
             })
+        }),
+        refresh: build.query<LoginResponse, void>({
+            query: () => ({ url: `refresh`})
         })
     })
 })
 
-export const { useLogInMutation, useSignUpMutation } = authenticationApi;
+export const { useLogInMutation, useSignUpMutation, useRefreshQuery } = authenticationApi;
 
 export const {
-    endpoints: { logIn, signUp },
+    endpoints: { logIn, signUp, refresh },
 } = authenticationApi;
 
 export default authenticationApi;

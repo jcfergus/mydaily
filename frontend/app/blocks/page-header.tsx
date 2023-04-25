@@ -1,9 +1,13 @@
 import { Alegreya_SC, Roboto_Condensed } from "next/font/google";
+import {useAppSelector} from "@/app/hooks";
+import {selectUser} from "@/app/store/authenticationSlice";
 
 const bigHeadFont /* and the Monsters */ = Alegreya_SC({subsets: ['latin'], weight: "400"});
 const robotoCondensed = Roboto_Condensed({subsets: ['latin'], weight: "400"});
 
 export default function PageHeader(): JSX.Element {
+    const user = useAppSelector(selectUser);
+
     return (
         <div className="flex full-width justify-center flex-col">
             <div className="full-width">

@@ -1,28 +1,41 @@
 class AuthController < ApplicationController
-  skip_before_action :authorized, only: [:login, :signup]
+  include ActionController::Cookies
+  skip_before_action :authorized, only: [:login, :signup, :refresh]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
+
+  def refresh
+    if cookies[:refresh_token]
+      token = RefreshToken.find_by!(value: cookies[:refresh_token])
+      if token&.active?
+        # TODO: Need to add logic here for rolling the token if it's at less than half-life.
+        @user = token.user
+        @jwt = encode_token(user_id: @user.id)
+        render json: {
+          user: UserSerializer.new(@user),
+          token: @jwt
+        }, status: :accepted
+      end
+    else
+      render json: { message: 'No refresh token available.'}, status: :unauthorized
+    end
+
+  end
 
   def login
     @user = User.find_by!(email: login_params[:email])
     if @user.authenticate(login_params[:password])
-      # if cookies[:refresh_token]
-      #   new_refresh_token = supercede_refresh_token(cookies[:refresh_token])
-      # else
-      #   new_refresh_token = RefreshToken.issue
-      # end
       @token = encode_token(user_id: @user.id)
-      if cookies[:refresh_token]
-        # Check existing refresh token expiration - if it's less than 7 days out, renew it.
-      else
-        refresh_token = RefreshToken.create!({ user: @user, expires: Time.now.utc + 30.days, value: SecureRandom.hex(64) })
-        cookies[:refresh_token] = {
-          :value => refresh_token.value,
-          :expires => Time.now.utc + 30.days,
-          :httponly => true,
-          # :secure => true,
-          # :samesite => :lax,
-        }
-      end
+      refresh_token = RefreshToken.create!({ user: @user, expires: Time.now.utc + 30.days, value: SecureRandom.hex(64) })
+      cookies[:refresh_token] = {
+        :value => refresh_token.value,
+        :expires => Time.now.utc + 30.days,
+        :path => "/auth/refresh",
+        # :httponly => true,
+        :same_site => :none,
+        :domain => :all,
+        # :secure => true,
+        # :samesite => :lax,
+      }
 
       render json: {
         user: UserSerializer.new(@user),

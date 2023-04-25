@@ -5,7 +5,7 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     post auth_signup_url, params: { givenName: "justin", surname: "ferguson", password: "Testtest1!", email: "jferg@lusars.net" }, as: :json, xhr: true
     assert_response :success
 
-    assert cookies[:refresh_token]
+    assert "Got a refresh token", @response.cookies[:refresh_token]
 
     result = JSON.parse(@response.body)
 

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/app/store';
 import api from "@/app/store/api/authentication";
 import User from "@/lib/models/user";
@@ -69,6 +68,26 @@ export const authenticationSlice = createSlice({
             api.endpoints.signUp.matchPending,
             (state) => {
                 state.loading = true;
+            }
+        ).addMatcher(
+            api.endpoints.refresh.matchPending,
+            (state) => {
+                state.loading = true;
+            }
+        ).addMatcher(
+            api.endpoints.refresh.matchFulfilled,
+            (state, { payload }) => {
+                state.token = payload.token;
+                state.user = payload.user;
+                state.loggedIn = true;
+                state.loading = false;
+            }
+        ).addMatcher(api.endpoints.refresh.matchRejected,
+            (state, { payload }) => {
+                state.token = undefined;
+                state.user = undefined;
+                state.loggedIn = false;
+                state.loading = false;
             }
         );
     }

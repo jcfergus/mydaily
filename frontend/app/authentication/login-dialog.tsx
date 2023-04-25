@@ -5,6 +5,7 @@ import Dialog from "@/app/ui/dialog";
 
 import {useLogInMutation} from "@/app/store/api/authentication";
 import type {LoginRequest} from "@/app/store/api/authentication";
+import toast from "react-hot-toast";
 
 interface FormState {
     email?: string;
@@ -18,9 +19,11 @@ const formDefaults = {
 
 interface LoginDialogProps {
     isOpen: boolean;
+    onOk?: () => void;
+    onCancel?: () => void;
 }
 
-export default function LoginDialog({isOpen}: LoginDialogProps): JSX.Element {
+export default function LoginDialog({isOpen, onCancel: parentOnCancel, onOk: parentOnOk }: LoginDialogProps): JSX.Element {
     const [formState, setFormState] = useState<FormState>(formDefaults);
     const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
     const [logIn, {isLoading}] = useLogInMutation();
@@ -31,13 +34,13 @@ export default function LoginDialog({isOpen}: LoginDialogProps): JSX.Element {
     }, [isOpen]);
 
     const onCancel = (): void => {
-        setFormState({});
-        setDialogIsOpen(false);
+        setFormState(formDefaults);
+        !!parentOnCancel && parentOnCancel()
     }
 
     const onOk = async (): Promise<void> => {
         if (!formState.email || !formState.password) {
-            // XXX
+            toast("Please enter your email address and password.");
             return;
         }
 
@@ -49,11 +52,11 @@ export default function LoginDialog({isOpen}: LoginDialogProps): JSX.Element {
         try {
             await logIn(loginRequest).unwrap();
             router.push("/");
-        } catch (err) {
-            // XXX
-        } finally {
-            setDialogIsOpen(false);
+        } catch (err: any) {
+            toast(`An error occurred: ${err.message}`)
         }
+
+        !!parentOnOk && parentOnOk()
     }
 
     const updateFormState = (ev: ChangeEvent<HTMLInputElement>) => {

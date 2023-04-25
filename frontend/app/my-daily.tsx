@@ -8,9 +8,13 @@ import { store } from "@/app/store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
+import { useRefreshQuery } from "@/app/store/api/authentication";
+import {useEffect} from "react";
+
 interface MyDailyProps { }
 
 export default function MyDaily({}: MyDailyProps): JSX.Element {
+
     return (
         <>
             <Provider store={store}>
@@ -21,7 +25,7 @@ export default function MyDaily({}: MyDailyProps): JSX.Element {
                         <PageContent/>
                     </div>
 
-                    <PageFooter user={undefined}/>
+                    <PageFooter />
                 </div>
                 <Toaster />
             </Provider>
