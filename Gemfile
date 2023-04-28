@@ -82,5 +82,3 @@ gem "bcrypt", "~> 3.1"
 gem "jwt", "~> 2.7"
 gem "rack-cors", "~> 2.0"
 gem "active_model_serializers", "~> 0.10.13"
-
-gem "rails-reverse-proxy", "~> 0.12.0"

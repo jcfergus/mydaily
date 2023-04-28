@@ -8,8 +8,7 @@ import { store } from "@/app/store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
-import { useRefreshQuery } from "@/app/store/api/authentication";
-import {useEffect} from "react";
+import ProfileDialog from "@/app/dialogs/profile-dialog";
 
 interface MyDailyProps { }
 
@@ -26,6 +25,7 @@ export default function MyDaily({}: MyDailyProps): JSX.Element {
                     </div>
 
                     <PageFooter />
+                    <ProfileDialog />
                 </div>
                 <Toaster />
             </Provider>

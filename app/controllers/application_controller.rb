@@ -25,8 +25,8 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-    unless !!current_user
-      render json: { message: 'Not authorized.' }, status: :unauthorized
-    end
+    # unless !!current_user
+    #  render json: { message: 'Not authorized.' }, status: :unauthorized
+    # end
   end
 end

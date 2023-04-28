@@ -26,7 +26,7 @@ export interface SignUpRequest {
 
 export const authenticationApi = createApi({
     reducerPath: 'authenticationApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/auth' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/auth' }),
     endpoints: (build) => ({
         logIn: build.mutation<LoginResponse, LoginRequest>({
             query: (credentials) => ({

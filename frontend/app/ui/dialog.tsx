@@ -9,6 +9,7 @@ interface DialogProps {
     children: React.ReactNode;
     ok: string | boolean;
     cancel: string | boolean;
+    fullScreen?: boolean;
 }
 
 export default function Dialog({
@@ -19,13 +20,14 @@ export default function Dialog({
                                    title,
                                    children,
                                    ok = true,
-                                   cancel = true
+                                   cancel = true,
+                                   fullScreen = false,
                                }: DialogProps): JSX.Element {
     const ref = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
         if (isOpen) {
-            ref.current?.showModal();
+            if (!ref.current?.open) ref.current?.showModal();
             document.body.classList.add("modal-open");
         } else {
             ref.current?.close();
@@ -46,15 +48,15 @@ export default function Dialog({
     const preventAutoClose = (e: React.MouseEvent) => e.stopPropagation();
 
     return (
-        <dialog className="backdrop:backdrop-blur border-orange-500 border-2 rounded-md p-0"
+        <dialog className={`backdrop:backdrop-blur border-orange-500 border-2 rounded-md p-0 overflow-hidden ${fullScreen ? "w-[95vw] h-[95vh]" :""}`}
                 id="dialog"
                 ref={ref}
                 onCancel={onClose}
                 onClick={onClose}>
-            <div className="flex flex-col" onClick={preventAutoClose}>
-                <div className="bg-orange-500 text-white font-bold m-0 p-4">{title}</div>
-                <div className="p-4">{children}</div>
-                <div className="flex flex-row justify-end m-0 p-2 bg-orange-300">
+            <div className="flex flex-col h-full max-h-full" onClick={preventAutoClose}>
+                <div className="bg-orange-500 text-white font-bold m-0 p-4 sticky top-0 z-10">{title}</div>
+                <div className="p-4 flex-grow h-full max-h-full">{children}</div>
+                <div className="flex flex-row justify-end m-0 p-2 bg-orange-300 bottom-0 sticky z-10">
                     {
                         cancel ? (
                             <button className="bg-white border-orange-500 border-2 rounded-sm p-2 m-1"

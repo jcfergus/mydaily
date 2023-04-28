@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "frontend#index"
+  root "users#me"
 
   post "/users", to: "users#create"
   get "/me", to: "users#me"
@@ -15,5 +15,5 @@ Rails.application.routes.draw do
   post "/auth/signup", to: "auth#signup"
   get "/auth/refresh", to: "auth#refresh"
 
-  get "/*path", to: "frontend#index"
+  # get "/*path", to: "frontend#index"
 end
