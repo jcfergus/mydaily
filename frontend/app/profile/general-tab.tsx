@@ -3,17 +3,14 @@ import EditableInput from "@/app/ui/editable-input";
 import Divider from "@/app/ui/divider";
 import PasswordInput from "@/app/ui/password-input";
 import SectionHeader from "@/app/ui/section-header";
-import {useEffect} from "react";
+import {User} from "@/app/store/api/generated/types";
 
 interface GeneralTabProperties {
+    profile?: User;
 }
 
-export default function GeneralTab({}: GeneralTabProperties): JSX.Element {
-    useEffect(() => {
-
-    })
-
-    const save = (fieldName: string, value: string | number) => {
+export default function GeneralTab({profile}: GeneralTabProperties): JSX.Element {
+    const save = (fieldName: string, value?: string | number) => {
 
     }
 
@@ -21,7 +18,7 @@ export default function GeneralTab({}: GeneralTabProperties): JSX.Element {
         <div className="w-full flex flex-col overflow-auto">
             <div className="flex w-full flex-row flex-auto h-64">
                 <div className="w-[50%] p-2">
-                    <AvatarEditor/>
+                    <AvatarEditor />
                 </div>
                 <div className="w-[50%] p-2">
                     Some other stuff
@@ -36,9 +33,9 @@ export default function GeneralTab({}: GeneralTabProperties): JSX.Element {
                             to you.  If it&apos;s ever going to be shared, we&apos;ll ask you to opt in.</span>
                     </SectionHeader>
 
-                    <EditableInput onSave={save} label={"Given (First) Name"} fieldName="givenName"/>
-                    <EditableInput onSave={save} label={"Family (Last) Name"} fieldName="surname"/>
-                    <EditableInput onSave={save} label={"Username/Alias"} fieldName="alias"/>
+                    <EditableInput onSave={save} label={"Given (First) Name"} fieldName="givenName" value={profile?.givenName} />
+                    <EditableInput onSave={save} label={"Family (Last) Name"} fieldName="surname" value={profile?.surname} />
+                    <EditableInput onSave={save} label={"Username/Alias"} fieldName="alias" value={profile?.username} />
 
                     <Divider/>
 
@@ -46,7 +43,7 @@ export default function GeneralTab({}: GeneralTabProperties): JSX.Element {
                         <span className="italic text-sm">How you log in.  This will never be shared with anyone else.</span>
                     </SectionHeader>
 
-                    <EditableInput onSave={save} label={"E-Mail Address"} fieldName="email"/>
+                    <EditableInput onSave={save} label={"E-Mail Address"} fieldName="email" value={profile?.email}/>
                     <PasswordInput onSave={save} fieldName={"password"} label={"Password"}/>
                 </div>
             </div>

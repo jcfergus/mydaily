@@ -9,8 +9,8 @@ interface EditableInputProps {
     minLength?: number;
     maxLength?: number;
     required?: boolean;
-    value?: string;
-    onSave?: (fieldName: string, value: string | number) => void;
+    value?: string | null;
+    onSave?: (fieldName: string, value?: string | number) => void;
 }
 
 export default function EditableInput({
@@ -26,7 +26,12 @@ export default function EditableInput({
 
     const [isActive, setActive] = useState<boolean>(false);
     const [isDirty, setDirty] = useState<boolean>(false);
-    const [currentValue, setCurrentValue] = useState<string | number>(value);
+    const [currentValue, setCurrentValue] = useState<string | number | null>(value);
+
+    useEffect(() => {
+        setCurrentValue(value);
+        setDirty(false);
+    }, [value])
 
     useEffect(() => {
         if (currentValue !== value) {
@@ -41,7 +46,7 @@ export default function EditableInput({
 
     const handleSave = () => {
         try {
-            onSave && onSave(fieldName, currentValue);
+            onSave && onSave(fieldName, currentValue ?? undefined);
         } catch (error: any) {
             // TODO make this error more friendly
             toast("Error saving field.  Please try again.");
@@ -80,7 +85,7 @@ export default function EditableInput({
                    minLength={minLength}
                    maxLength={maxLength}
                    id={fieldName}
-                   value={currentValue}
+                   value={currentValue ?? undefined}
                    onFocus={focus}
                    onBlur={unfocus}
                    onChange={change}

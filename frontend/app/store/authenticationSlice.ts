@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '@/app/store';
 import api from "@/app/store/api/authentication";
+import { client as graphQLClient } from "./api/graphqlApi";
 import User from "@/lib/models/user";
 
 interface AuthenticationState {
@@ -31,6 +32,7 @@ export const authenticationSlice = createSlice({
             api.endpoints.logIn.matchFulfilled,
             (state, { payload }) => {
                 state.token = payload.token;
+                graphQLClient.setHeader('authentication', `Bearer ${payload.token}`);
                 state.user = payload.user;
                 state.loggedIn = true;
                 state.loading = false;
@@ -39,6 +41,7 @@ export const authenticationSlice = createSlice({
             api.endpoints.logIn.matchRejected,
             (state, {payload}) => {
                 state.token = undefined;
+                graphQLClient.setHeader('authentication', ``);
                 state.user = undefined;
                 state.loggedIn = false;
                 state.loading = false;
@@ -52,6 +55,7 @@ export const authenticationSlice = createSlice({
             api.endpoints.signUp.matchFulfilled,
             (state, { payload }) => {
                 state.token = payload.token;
+                graphQLClient.setHeader('authentication', `Bearer ${payload.token}`);
                 state.user = payload.user;
                 state.loggedIn = true;
                 state.loading = false;
@@ -60,6 +64,7 @@ export const authenticationSlice = createSlice({
             api.endpoints.signUp.matchRejected,
             (state, { payload }) => {
                 state.token = undefined;
+                graphQLClient.setHeader('authentication', ``);
                 state.user = undefined;
                 state.loggedIn = false;
                 state.loading = false;
@@ -69,15 +74,12 @@ export const authenticationSlice = createSlice({
             (state) => {
                 state.loading = true;
             }
-        ).addMatcher(
-            api.endpoints.refresh.matchPending,
-            (state) => {
-                state.loading = true;
-            }
+
         ).addMatcher(
             api.endpoints.refresh.matchFulfilled,
             (state, { payload }) => {
                 state.token = payload.token;
+                graphQLClient.setHeader('authentication', `Bearer ${payload.token}`);
                 state.user = payload.user;
                 state.loggedIn = true;
                 state.loading = false;
@@ -85,9 +87,15 @@ export const authenticationSlice = createSlice({
         ).addMatcher(api.endpoints.refresh.matchRejected,
             (state, { payload }) => {
                 state.token = undefined;
+                graphQLClient.setHeader('authentication', ``);
                 state.user = undefined;
                 state.loggedIn = false;
                 state.loading = false;
+            }
+        ).addMatcher(
+            api.endpoints.refresh.matchPending,
+            (state) => {
+                state.loading = true;
             }
         );
     }

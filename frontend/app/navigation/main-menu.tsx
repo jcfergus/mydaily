@@ -10,6 +10,8 @@ interface MainMenuProps {
 export default function MainMenu({}: MainMenuProps) {
     const user = useAppSelector(selectUser);
 
+    // This triggers a call to the refresh endpoint when the page first loads,
+    // to get a fresh JWT if needed.
     const { data: refresh } = useRefreshQuery(undefined, {skip: false});
 
     return (

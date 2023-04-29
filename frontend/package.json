@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-types": "supabase gen types typescript --linked > lib/database.types.ts",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "codegen-watch": "graphql-codegen --config codegen.yml --watch"
   },
   "dependencies": {
+    "@graphql-codegen/near-operation-file-preset": "^2.5.0",
     "@graphql-codegen/typescript-resolvers": "^3.2.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@rtk-query/graphql-request-base-query": "^2.2.0",

@@ -4,12 +4,10 @@ import {GraphQLClient} from "graphql-request";
 
 export const client = new GraphQLClient("/graphql");
 
-export const graphqlApi = createApi({
+export const api = createApi({
     reducerPath: 'graphqlApi',
     baseQuery: graphqlRequestBaseQuery({client}),
     endpoints: () => ({})
 })
 
-export const {} = graphqlApi;
-
-export default graphqlApi;
+export default api;

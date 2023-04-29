@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authenticationReducer from "@/app/store/authenticationSlice";
 import uiReducer from "@/app/store/uiSlice";
 import authenticationApi from "@/app/store/api/authentication";
-import {graphqlApi} from "@/app/store/api/graphql";
+import {api as graphqlApi} from "@/app/store/api/graphqlApi";
 
 export const store = configureStore({
     reducer: {

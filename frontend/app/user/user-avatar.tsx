@@ -1,5 +1,5 @@
 import Image from "next/image";
-import User from "@/lib/models/user";
+import {User} from "@/app/store/api/generated/types";
 
 import {Alegreya_SC} from "next/font/google";
 import React, {ForwardedRef} from "react";
@@ -10,12 +10,12 @@ interface UserAvatarProps {
     user?: User;
 }
 
-export default React.forwardRef(function UserAvatar(props: UserAvatarProps, ref: ForwardedRef<HTMLDivElement>): JSX.Element {
+export default React.forwardRef(function UserAvatar({user}: UserAvatarProps, ref: ForwardedRef<HTMLDivElement>): JSX.Element {
     return (
         <div title={"Main Menu"} ref={ref} className="inline-block">
-            {props.user?.avatarUrl ?
+            {user?.userAvatar ?
                 (
-                    <Image className="inline-block h-6 w-6 rounded-full ring-2 ring-white" src={props.user.avatarUrl}
+                    <Image className="inline-block h-6 w-6 rounded-full ring-2 ring-white" src={user.userAvatar}
                            alt="User Avatar"/>
                 ) : (
                     <div className={
