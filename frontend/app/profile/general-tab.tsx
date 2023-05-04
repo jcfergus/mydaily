@@ -44,7 +44,7 @@ export default function GeneralTab({profile}: GeneralTabProperties): JSX.Element
                     </SectionHeader>
 
                     <EditableInput onSave={save} label={"E-Mail Address"} fieldName="email" value={profile?.email}/>
-                    <PasswordInput onSave={save} fieldName={"password"} label={"Password"}/>
+                    <PasswordInput onSave={save} fieldName={"password"} label={"Password"} value={"************"}/>
                 </div>
             </div>
         </div>

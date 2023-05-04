@@ -36,6 +36,8 @@ export default function EditableInput({
     useEffect(() => {
         if (currentValue !== value) {
             setDirty(true);
+        } else {
+            setDirty(false);
         }
     }, [currentValue, value])
 
@@ -96,7 +98,7 @@ export default function EditableInput({
                 onClick={handleSave}>
                 <MdCheck/></button>
             <button
-                className={`rounded-full ${isActive || isDirty ? "bg-red-700" : "bg-gray-300"} p-1 m-1 text-white`}
+                className={`rounded-full ${isActive || isDirty ? "bg-red-700" : "bg-gray-300"} p-1 m-1 mr-3 text-white`}
                 onClick={handleReset}>
                 <MdClose/></button>
         </div>
